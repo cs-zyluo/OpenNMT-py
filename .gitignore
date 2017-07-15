@@ -1,4 +1,5 @@
 pred.txt
+rpred.txt
 multi-bleu.perl
 *.pt
 *.pyc
