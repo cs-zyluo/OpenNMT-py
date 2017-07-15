@@ -116,13 +116,8 @@ def main():
 
         for b in range(len(predBatch)):
             count += 1
-            try:
-                # python2
-                outF.write(" ".join([i.decode('utf-8')
-                           for i in predBatch[b][0]]) + '\n')
-            except AttributeError:
-                # python3: can't do .decode on a str object
-                outF.write(" ".join(predBatch[b][0]) + '\n')
+            print(predBatch[b][0])
+            outF.write(" ".join(predBatch[b][0]) + '\n')
             outF.flush()
 
             if opt.verbose:
