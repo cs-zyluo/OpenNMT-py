@@ -1,5 +1,6 @@
 pred.txt
 rpred.txt
+capred.txt
 multi-bleu.perl
 *.pt
 *.pyc
@@ -12,3 +13,4 @@ build/
 cnetdata/
 cnetmodel/
 poedata/
+copadata/
