@@ -78,4 +78,34 @@ def extract_pairs(fp, src_fp, tgt_fp):
                 outf1.write(sstart+'\n')
                 outf2.write(send+'\n')
 
-extract_pairs('/home/zhiyi/Projects/CausalLaw/data/ConceptNet/data/extract_assertions/extract.jsons','/home/zhiyi/Projects/CausalLaw/forked/OpenNMT-py/cnetdata/cause.txt','/home/zhiyi/Projects/CausalLaw/forked/OpenNMT-py/cnetdata/effect.txt')
+#extract_pairs('/home/zhiyi/Projects/CausalLaw/data/ConceptNet/data/extract_assertions/extract.jsons','/home/zhiyi/Projects/CausalLaw/forked/OpenNMT-py/cnetdata/cause.txt','/home/zhiyi/Projects/CausalLaw/forked/OpenNMT-py/cnetdata/effect.txt')
+
+def extract_copaPairs(copa_fp, causeq_fp, effectq_fp, causeans_fp, effect_ansfp):
+    with codecs.open(copa_fp,encoding='utf-8') as f, codecs.open(causeq_fp, 'w', encoding='utf-8') as outf1, codecs.open(effectq_fp, 'w', encoding='utf-8') as outf2, codecs.open(causeans_fp, 'w', encoding='utf-8') as outf3, codecs.open(effect_ansfp, 'w', encoding='utf-8') as outf4:
+        lines = f.readlines()
+        i = 0  # pointer
+        while i<len(lines):
+            line = lines[i]
+            if line.startswith('['):
+                _,askfor,ans = line.strip().strip('[]').split(',')
+                print askfor,ans
+                correct = lines[i + int(ans[-1]) + 1]
+                q,a1,a2 = lines[i+1], lines[i+2], lines[i+3]
+                i += 5 # skip empty line
+                if askfor=="ask-for:cause":
+                    outf2.write(q) # effect question
+                    outf3.write(correct) # cause answer
+                else:
+                    outf1.write(q) # cause question
+                    outf4.write(correct) # effect answer
+            else:
+                raise
+            
+extract_copaPairs('/Users/zyluo/Projects/CausalLaw/lemmatizedCOPA.txt','cq.txt','eq.txt','ca.txt','ea.txt')
+                    
+
+                    
+            
+            
+            
+    
