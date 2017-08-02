@@ -29,6 +29,7 @@ def investigate():
 ## 1. start and end are all en concepts
 ## 2. relations are in our predefined list
 ## 3. extract all surface texts.
+"""
 causeRels = ['Causes',
         'HasSubevent',
         'HasFirstSubevent',
@@ -36,6 +37,9 @@ causeRels = ['Causes',
         'CausesDesire',
         'MotivatedByGoal',
         'Entails']
+"""
+causeRels = ["NotCauses"]
+
 def extract(fp, out_fp = None):
     if out_fp is None: 
         prefix, suffix = os.path.split(fp)
@@ -49,11 +53,12 @@ def extract(fp, out_fp = None):
                     'rel' in entry:
                 start = entry['start']
                 end = entry['end']
-                rel = os.path.split(entry['rel'])
+                rel = os.path.split(entry['rel'])[-1]
                 if start.startswith('/c/en/') and \
                         end.startswith('/c/en/') and \
                         rel in causeRels:
-                            print line
+                            if "weight" in entry and float(entry["weight"])<0:
+			        print line,weight
                             outf.write(line)
 
 def extract_dir(ddir):
@@ -64,7 +69,7 @@ def extract_dir(ddir):
             extract(os.path.abspath(fn))
 
 #extract_dir('/home/zhiyi/Projects/CausalLaw/data/ConceptNet/data/assertions')
-#extract('/home/zhiyi/Projects/CausalLaw/data/ConceptNet/data/assertions/2015 part_00.jsons')
+extract('/home/zhiyi/Projects/CausalLaw/data/ConceptNet/data/assertions/part_05.jsons')
 
 def extract_pairs(fp, src_fp, tgt_fp):
     with codecs.open(fp,encoding='utf-8') as f, codecs.open(src_fp, 'w', encoding='utf-8') as outf1, codecs.open(tgt_fp, 'w', encoding='utf-8') as outf2:
@@ -101,11 +106,6 @@ def extract_copaPairs(copa_fp, causeq_fp, effectq_fp, causeans_fp, effect_ansfp)
             else:
                 raise
             
-extract_copaPairs('/Users/zyluo/Projects/CausalLaw/lemmatizedCOPA.txt','cq.txt','eq.txt','ca.txt','ea.txt')
-                    
+#extract_copaPairs('../../../data/copa/lemmatizedCOPA.txt','cq.txt','eq.txt','ca.txt','ea.txt')
 
-                    
-            
-            
-            
-    
+
